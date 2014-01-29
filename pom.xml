@@ -86,6 +86,17 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<!-- My Snapshot Repos -->
+		<repository>
+			<id>ntier-repo</id>
+			<url>https://github.com/dwelch2344/maven-repo/raw/master/releases</url>
+		</repository>
+		<repository>
+			<id>ntier-snapshot-repo</id>
+			<url>https://github.com/dwelch2344/maven-repo/raw/master/snapshots</url>
+			<snapshots>
+			</snapshots>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
