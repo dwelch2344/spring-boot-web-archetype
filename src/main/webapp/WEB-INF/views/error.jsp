@@ -8,4 +8,4 @@
 		<h1>Hello Boot!</h1>
 	</jsp:body>
 </tags:template> --%>
-<h1>hi!</h1>
+<h1>Error</h1>

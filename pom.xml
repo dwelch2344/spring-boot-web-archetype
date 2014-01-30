@@ -16,6 +16,7 @@
 	<packaging>war</packaging>
 
 	<properties>
+		<java.version>1.6</java.version>	
 		<start-class>co.ntier.spring.boot.archetype.web.Application</start-class>
 		<m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
 	</properties>
@@ -53,6 +54,12 @@
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.12.4</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- My custom Tomcat session manager -->

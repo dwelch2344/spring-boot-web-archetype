@@ -1,20 +1,24 @@
-package co.ntier.spring.boot.archetype.web.config;
+package co.ntier.spring.boot.archetype.web.config.tomcat;
 
-import javax.inject.Inject;
 
 import org.apache.catalina.Context;
-import org.apache.catalina.Manager;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.util.Assert;
 
+import co.ntier.mongo.tomcat.MongoSessionManager;
 import co.ntier.mongo.tomcat.MongoSessionTrackerValve;
+@Deprecated
+public class TomcatMongoSessionCustomizer implements EmbeddedServletContainerCustomizer, TomcatContextCustomizer{
 
-public class TomcatCustomizer implements EmbeddedServletContainerCustomizer, TomcatContextCustomizer{
-
-	@Inject
-	private Manager manager;
+	private final MongoSessionManager manager;
+	
+	public TomcatMongoSessionCustomizer(MongoSessionManager manager) {
+		Assert.notNull(manager, "Parameter 'manager' cannot be null");
+		this.manager = manager;
+	}
 
 	@Override
 	public void customize(ConfigurableEmbeddedServletContainerFactory factory) {
