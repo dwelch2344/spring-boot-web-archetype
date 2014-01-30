@@ -4,9 +4,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.catalina.Context;
+import org.apache.catalina.Manager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
@@ -19,7 +21,12 @@ import co.ntier.mongo.tomcat.MongoSessionTrackerValve;
 
 import com.mongodb.ServerAddress;
 
-// TODO clean this mess up... 
+/**
+ * Provides a customization when running in EmbeddedTomcat, facilitating session storage using MongoDB.
+ * This class should not be loaded when running in a traditional web container. 
+ * 
+ * @author dave
+ */
 @Slf4j
 public class TomcatConfig {
 
@@ -33,9 +40,7 @@ public class TomcatConfig {
 	
 	@Bean
 	public EmbeddedServletContainerCustomizer tomcatCustomizer() throws URISyntaxException, UnknownHostException {
-		
 		return new EmbeddedServletContainerCustomizer() {
-			
 			@Override
 			public void customize(ConfigurableEmbeddedServletContainerFactory factory) {
 				if(factory instanceof TomcatEmbeddedServletContainerFactory){
@@ -43,10 +48,10 @@ public class TomcatConfig {
 					configureTomcat(containerFactory);
 				}
 			}
-
 		};
 	}
 	
+	// TODO clean this up
 	private void configureTomcat(TomcatEmbeddedServletContainerFactory cf) {
 		try{
 			configureMongoSessions(cf);
@@ -61,22 +66,26 @@ public class TomcatConfig {
 			URI uri = new URI(url);
 			
 			String user = uri.getUserInfo();
-			String[] auth = user == null ? new String[]{"",""} : user.split(":");
+			String[] auth = user == null ? new String[]{null, null} : user.split(":");
 			
 			int port = uri.getPort();
 			port = port < 0 ? 27017 : port;
 			
 			ServerAddress address = new ServerAddress(uri.getHost(), port);
-			final MongoSessionManager manager = new MongoSessionManager(address, uri.getPath(), auth[0], auth[1]);
+			final MongoSessionManager manager = new MongoSessionManager(address, uri.getPath().substring(1), auth[0], auth[1]);
 			log.info("Established MongoManager to " + address);
 			
 			cf.addContextValves(new MongoSessionTrackerValve());
-			cf.addContextCustomizers(new TomcatContextCustomizer() {
-				@Override
-				public void customize(Context context) {
-					context.setManager(manager);
-				}
-			});
+			cf.addContextCustomizers(new TomcatManagerCustomizer(manager));
+		}
+	}
+	
+	@RequiredArgsConstructor
+	public static class TomcatManagerCustomizer implements TomcatContextCustomizer{
+		private final Manager manager;
+		@Override
+		public void customize(Context context) {
+			context.setManager(manager);
 		}
 	}
 
