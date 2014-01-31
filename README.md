@@ -4,6 +4,8 @@ This is a simple starter app utilizing some of the soon-to-be-released SpringBoo
 
 More documentation coming soon... 
 
+If you want to see it on Heroku, check out [http://springbootdemo.herokuapp.com]()
+
 ### Application Details
 
 The following subpackages of `co.ntier.spring.boot.archetype.web` are of note:

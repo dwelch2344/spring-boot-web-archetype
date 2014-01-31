@@ -1,7 +1,5 @@
 package co.ntier.spring.boot.archetype.web.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +21,5 @@ public class Person {
 	private Long id;
 	
 	private String name;
-	private Date birthdate;
 
 }
