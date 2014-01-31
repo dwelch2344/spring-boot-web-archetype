@@ -1,5 +1,6 @@
 package co.ntier.spring.boot.archetype.web;
 
+import org.springframework.boot.actuate.autoconfigure.ErrorMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.SpringBootServletInitializer;
@@ -11,7 +12,7 @@ import co.ntier.spring.boot.archetype.web.config.TomcatConfig;
 
 @Configuration
 @ComponentScan
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude=ErrorMvcAutoConfiguration.class)
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class Application extends SpringBootServletInitializer {
 
