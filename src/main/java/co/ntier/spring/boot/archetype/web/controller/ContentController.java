@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,14 +18,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestAttributes;
 
+import co.ntier.spring.boot.archetype.web.svc.ExampleBadService;
+
 @Slf4j
 @Controller
 public class ContentController implements ErrorController {
 	
 	private static final String ERROR_KEY = "error";
 	
+	@Inject
+	private ExampleBadService service;
+	
 	@RequestMapping("/site")
 	public String getSite(Model model){
+		model.addAttribute("people", service.getPeople());
 		return "home";
 	}
 	
