@@ -7,8 +7,8 @@
 	<jsp:body>
 		<h1>Hello Boot!</h1>
 		<ul>
-			<c:forEach items="${peope}" var="person">
-				<li><c:out value="${person.id} ${person.name}"></c:out>
+			<c:forEach items="${people}" var="person">
+				<li><c:out value="(${person.id}) ${person.name}"></c:out></li>
 			</c:forEach>
 		</ul>
 	</jsp:body>
